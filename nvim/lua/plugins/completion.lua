@@ -48,7 +48,7 @@ return {
               if #cmp.get_entries() == 1 then
                 cmp.confirm({ select = true })
               else
-                select_next_item({ behavior = cmp.SelectBehavior.Insert })
+                cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
               end
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
@@ -58,7 +58,7 @@ return {
           end, { "i", "s" }),
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-              select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+              cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
             elseif luasnip.jumpable(-1) then
               luasnip.jump(-1)
             else
