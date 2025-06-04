@@ -79,25 +79,50 @@ return {
 
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      require("mason-lspconfig").setup_handlers({
-        function(server)
-          require("lspconfig")[server].setup({
-            handler = handlers,
-            on_attach = on_attach,
-            capabilities = capabilities,
-          })
-        end,
+      local ensure_installed = {
+        clangd = {},
+        rust_analyzer = {},
+        gopls = {},
+        ts_ls = {},
+        pyright = {},
+        eslint = {},
+      }
 
-        ["lua_ls"] = function()
-          require("lspconfig")["lua_ls"].setup({
-            settings = {
-              Lua = {
-                diagnostics = { globals = { "vim" } },
-              },
-            },
-          })
-        end,
+      for server_name, _ in pairs(ensure_installed) do
+        require("lspconfig")[server_name].setup({
+          capabilities = capabilities,
+          on_attach = on_attach,
+          handlers = handlers,
+        })
+      end
+
+      require("lspconfig")["lua_ls"].setup({
+        settings = {
+          Lua = {
+            diagnostics = { globals = { "vim" } },
+          },
+        },
       })
+
+      -- require(mason-lspconfig").setup_handlers({
+      --   function(server)
+      --     require("lspconfig")[server].setup({
+      --       handler = handlers,
+      --       on_attach = on_attach,
+      --       capabilities = capabilities,
+      --     })
+      --   end,
+      --
+      --   ["lua_ls"] = function()
+      --     require("lspconfig")["lua_ls"].setup({
+      --       settings = {
+      --         Lua = {
+      --           diagnostics = { globals = { "vim" } },
+      --         },
+      --       },
+      --     })
+      --   end,
+      -- })
     end,
   },
   {
@@ -114,7 +139,6 @@ return {
         "ts_ls",
         "pyright",
         "eslint",
-        "tailwindcss",
       },
     },
   },
