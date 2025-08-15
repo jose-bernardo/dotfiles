@@ -2,7 +2,6 @@ return {
   -- "pwntester/octo.nvim
   -- "ahmedkhalf/project.nvim"
   -- "echasnovski/mini.starter"
-  -- "ibhagwan/fzf-lua"
   -- "stevearc/overseer.nvim"
   -- "stevearc/aerial.nvim"
   -- "echasnovski/mini.move"
@@ -15,27 +14,28 @@ return {
   -- "lukas-reineke/indent-blankline.nvim"
   -- "MaximilianLloyd/tw-values.nvim"
   -- "nacro90/numb.nvim"
-  -- navic
   -- "jay-babu/mason-null-ls.nvim"
   {
     "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       options = {
         theme = "catppuccin",
-        component_separators = "",
-        section_separators = { left = "", right = "" },
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
       },
       sections = {
         lualine_a = { "mode" },
-        lualine_b = { "branch" },
-        lualine_c = { "diagnostics" },
-        -- lualine_d = {
-        --   {
-        --     "navic",
-        --     color_correction = nil, -- Can be nil, "static" or "dynamic". This option is useful only when you have highlights enabled.
-        --     navic_opts = nil, -- lua table with same format as setup's option. All options except "lsp" options take effect when set here.
-        --   },
-        -- },
+        lualine_b = { "branch", "diff" },
+        lualine_c = {
+          "filename",
+          "diagnostics",
+          {
+            "navic",
+            color_correction = nil, -- Can be nil, "static" or "dynamic". This option is useful only when you have highlights enabled.
+            navic_opts = nil, -- lua table with same format as setup's option. All options except "lsp" options take effect when set here.
+          },
+        },
         lualine_x = {
           -- stylua: ignore
           {
@@ -47,6 +47,11 @@ return {
             function() return require("noice").api.status.mode.get() end,
             cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
           },
+          "filetype",
+          {
+            "lsp_status",
+          },
+          -- "require'lsp-status'.status()",
         },
         lualine_y = {
           { "progress", separator = " ", padding = { left = 1, right = 0 } },
@@ -54,7 +59,7 @@ return {
         },
         lualine_z = {
           function()
-            return " " .. os.date("%R ")
+            return os.date("%R ")
           end,
         },
       },
@@ -142,18 +147,6 @@ return {
           cursor = { enable = false },
         },
       },
-    },
-  },
-  {
-    "dstein64/vim-startuptime",
-    cmd = "StartupTime",
-  },
-  {
-    "hedyhli/outline.nvim",
-    cmd = { "Outline", "OutlineOpen" },
-    keys = { { "<leader>cs", "<cmd>Outline<cr>", desc = "Toggle Outline" } },
-    opts = {
-      window = { width = 30 },
     },
   },
   {

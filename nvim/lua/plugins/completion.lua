@@ -9,15 +9,18 @@ return {
       "hrsh7th/cmp-path",
       {
         "L3MON4D3/LuaSnip",
-        -- follow latest release.
         version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-        -- install jsregexp (optional!:).
         build = "make install_jsregexp",
         dependencies = {
           "rafamadriz/friendly-snippets",
           config = function()
             require("luasnip.loaders.from_vscode").lazy_load()
           end,
+        },
+        opts = {
+          history = true,
+          enable_autosnippets = true,
+          region_check_events = "InsertEnter,CursorMoved",
         },
       },
       "saadparwaiz1/cmp_luasnip",
@@ -38,19 +41,36 @@ return {
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
-          width,
         },
         mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          -- ["<CR>"] = cmp.mapping(function(fallback)
+          --   if cmp.visible() then
+          --     if luasnip.expandable() then
+          --       luasnip.expand()
+          --     else
+          --       cmp.confirm({
+          --         select = false,
+          --       })
+          --     end
+          --   else
+          --     fallback()
+          --   end
+          -- end),
+          ["<CR>"] = cmp.mapping({
+            i = function(fallback)
+              if cmp.visible() and cmp.get_active_entry() then
+                cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+              else
+                fallback()
+              end
+            end,
+            s = cmp.mapping.confirm({ select = true }),
+            c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+          }),
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
-              if #cmp.get_entries() == 1 then
-                cmp.confirm({ select = true })
-              else
-                cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
-              end
-            elseif luasnip.expand_or_jumpable() then
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+            elseif luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             else
               fallback()
@@ -65,16 +85,13 @@ return {
               fallback()
             end
           end, { "i", "s" }),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<S-CR>"] = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace }),
-          ["<C-CR>"] = function(fallback)
-            cmp.abort()
-            fallback()
-          end,
+
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-e>"] = cmp.mapping.abort(),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
-          { name = "nvim_lua" },
           { name = "luasnip" },
           { name = "path" },
           { name = "buffer" },

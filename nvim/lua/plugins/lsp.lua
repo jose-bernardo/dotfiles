@@ -1,14 +1,15 @@
 return {
-  {
-    "themaxmarchuk/tailwindcss-colors.nvim",
-    module = "tailwindcss-colors",
-    opts = {},
-  },
+  -- {
+  --   "themaxmarchuk/tailwindcss-colors.nvim",
+  --   module = "tailwindcss-colors",
+  --   opts = {},
+  -- },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "mason.nvim",
+      "SmiteshP/nvim-navic",
       { "williamboman/mason-lspconfig.nvim", config = function() end },
     },
     opts = {
@@ -31,7 +32,8 @@ return {
             [vim.diagnostic.severity.INFO] = "",
           },
         },
-        float = { border = "rounded", width = 50 },
+        -- float = { border = "rounded", width = 50 },
+        float = { width = 50 },
       }),
       severity_sort = true,
       inlay_hints = {
@@ -48,32 +50,36 @@ return {
       },
     },
     config = function()
-      require("lspconfig.ui.windows").default_options.border = "rounded"
+      local attach_navic = function(client, buffer)
+        local navic = require("nvim-navic")
+        if client.server_capabilities.documentSymbolProvider then
+          navic.attach(client, buffer)
+        end
+      end
 
-      local on_attach = function()
+      local on_attach = function(client, buffer)
+        attach_navic(client, buffer)
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Goto Definition" })
         vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Goto References" })
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Goto Implementation" })
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declarations" })
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
         vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
         vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostics" })
         vim.keymap.set("n", "<Leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
-        vim.keymap.set(
-          "n",
-          "<Leader>ca",
-          vim.lsp.buf.code_action,
-          { desc = "Code Action", noremap = true, silent = true }
-        )
+        -- vim.keymap.set(
+        --   "n",
+        --   "<Leader>ca",
+        --   vim.lsp.buf.code_action,
+        --   { desc = "Code Action", noremap = true, silent = true }
+        -- )
       end
 
       local handlers = {
-        ["textDocument/hover"] = vim.lsp.with(
-          vim.lsp.handlers.hover,
-          { border = "rounded", max_width = 70, max_height = 20 }
-        ),
+        ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { max_width = 70, max_height = 20 }),
         ["textDocument/signatureHelp"] = vim.lsp.with(
           vim.lsp.handlers.signature_help,
-          { border = "rounded", max_width = 70, max_height = 20 }
+          { max_width = 70, max_height = 20 }
         ),
       }
 
@@ -86,6 +92,10 @@ return {
         ts_ls = {},
         pyright = {},
         eslint = {},
+        phpactor = {},
+        lua_ls = {},
+        marksman = {},
+        ltex = {},
       }
 
       for server_name, _ in pairs(ensure_installed) do
@@ -139,6 +149,7 @@ return {
         "ts_ls",
         "pyright",
         "eslint",
+        "phpactor",
       },
     },
   },

@@ -14,6 +14,7 @@ return {
         typescript = { "prettier" },
         typescriptreact = { "prettier" },
         python = { "black" },
+        php = { "php_cs_fixer" },
       },
       format_after_save = {
         lsp_format = "fallback",
