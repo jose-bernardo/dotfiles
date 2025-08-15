@@ -41,14 +41,19 @@ opt.splitright = true
 
 opt.tabstop = 2
 opt.termguicolors = true
+opt.pumblend = 0
 opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200
 opt.winminwidth = 5
-opt.wrap = false
-
--- opt.listchars=eol:$,tab:>-,trail:~,extends:>,precedes:<
-
-if vim.fn.has("nvim-0.10") == 1 then
-  opt.smoothscroll = true
-end
+opt.wrap = true
+opt.listchars:append({
+  -- tab = "│─",
+  -- multispace = space,
+  -- lead = space,
+  trail = "·",
+  -- eol = "$",
+  -- extends:
+  -- precedes:
+  -- nbsp = space,
+})
