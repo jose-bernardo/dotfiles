@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + @space
-	rofi -modes "drun,run" -show drun
+	rofi -modes "drun,window,filebrowser" -show drun
 
 super + b
   firefox
@@ -130,3 +130,8 @@ super + {Left,Down,Up,Right}
 # media sound control
 {XF86AudioMute, XF86AudioLowerVolume, XF86AudioRaiseVolume}
   {amixer set Master toggle, amixer sset Master 10%-, amixer sset Master 10%+}
+
+# take screenshot
+super + shift + s
+  sh ~/scripts/take_screenshot.sh
+  #flameshot gui -c -p ~/screenshots
