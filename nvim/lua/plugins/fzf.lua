@@ -2,6 +2,9 @@ return {
   {
     "ibhagwan/fzf-lua",
     dependencies = { "echasnovski/mini.icons" },
+    init = function()
+      require("fzf-lua").register_ui_select()
+    end,
     opts = {
       fzf_colors = {
         true,
@@ -11,6 +14,18 @@ return {
         width = 0.50, -- window width
         row = 0.35, -- window row position (0=top, 1=bottom)
         col = 0.50, -- window col position (0=left, 1=right)
+      },
+      previewers = {
+        builtin = {
+          extensions = {
+            ["png"] = "ueberzugpp",
+            ["jpg"] = "ueberzugpp",
+            ["jpeg"] = "ueberzugpp",
+            ["gif"] = "ueberzugpp",
+            ["webp"] = "ueberzugpp",
+          },
+          ueberzug_scaler = "cover",
+        },
       },
     },
     lsp = {
@@ -73,7 +88,6 @@ return {
       {
         "<leader>ca",
         function()
-          require("fzf-lua").register_ui_select()
           require("fzf-lua").lsp_code_actions()
         end,
         desc = "Code Actions",
@@ -84,6 +98,20 @@ return {
           require("fzf-lua").lsp_document_diagnostics()
         end,
         desc = "Diagnostics",
+      },
+      {
+        "<leader>gs",
+        function()
+          require("fzf-lua").git_status()
+        end,
+        desc = "Git Status",
+      },
+      {
+        "<leader>ggc",
+        function()
+          require("fzf-lua").git_commits()
+        end,
+        desc = "Git Commits",
       },
     },
   },
