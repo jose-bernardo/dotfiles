@@ -65,8 +65,10 @@ return {
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declarations" })
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
         vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-        vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostics" })
+        -- vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostics" })
         vim.keymap.set("n", "<Leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
+        -- vim.keymap.set("n", "", vim.lsp.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+        -- vim.keymap.set("n", "", vim.lsp.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
         -- vim.keymap.set(
         --   "n",
         --   "<Leader>ca",
@@ -134,6 +136,18 @@ return {
       --   end,
       -- })
     end,
+  },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    config = function()
+      require("tiny-inline-diagnostic").setup({
+        preset = "simple",
+      })
+      vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
+    end,
+    opts = {},
   },
   {
     "williamboman/mason.nvim",
