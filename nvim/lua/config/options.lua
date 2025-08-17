@@ -47,6 +47,7 @@ opt.undolevels = 10000
 opt.updatetime = 200
 opt.winminwidth = 5
 opt.wrap = true
+opt.scrolloff = 10
 opt.listchars:append({
   -- tab = "│─",
   -- multispace = space,
