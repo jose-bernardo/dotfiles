@@ -15,6 +15,7 @@ return {
         typescriptreact = { "prettier" },
         python = { "black" },
         php = { "php_cs_fixer" },
+        json = { "jq" },
       },
       format_after_save = {
         lsp_format = "fallback",

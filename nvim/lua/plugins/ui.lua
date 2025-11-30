@@ -1,20 +1,4 @@
 return {
-  -- "pwntester/octo.nvim
-  -- "ahmedkhalf/project.nvim"
-  -- "echasnovski/mini.starter"
-  -- "stevearc/overseer.nvim"
-  -- "stevearc/aerial.nvim"
-  -- "echasnovski/mini.move"
-  -- "echasnovski/mini.diff"
-  -- "rcarriga/nvim-dap-ui"
-  -- "MagicDuck/grug-far.nvim"
-  -- "folke/which-key.nvim"
-  -- "folke/todo-comments.nvim"
-  -- "nvim-treesitter/nvim-treesitter-textobjects"
-  -- "lukas-reineke/indent-blankline.nvim"
-  -- "MaximilianLloyd/tw-values.nvim"
-  -- "nacro90/numb.nvim"
-  -- "jay-babu/mason-null-ls.nvim"
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },

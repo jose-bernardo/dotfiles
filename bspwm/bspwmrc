@@ -2,20 +2,31 @@
 
 pgrep -x sxhkd >/dev/null || sxhkd &
 pgrep -x dunst >/dev/null || dunst &
+pgrep -x polybar >/dev/null
 
 wmname LG3D
 
 picom --daemon
-feh --bg-fill "$HOME/.config/bspwm/1920x1080-trolley-grey-solid-color-background.jpg"
+feh --bg-fill "$HOME/.config/bspwm/dark-grey-background.webp"
+
+mpris-proxy &
 
 killall -q polybar
-mpris-proxy &
 
 echo "---" | tee -a /tmp/polybar.log
 polybar top 2>&1 | tee -a /tmp/polybar.log &
+if [[ $(xrandr -q | grep 'DisplayPort-0') ]]; then
+  # xrandr --output HDMI-A-0 --primary --mode 1920x1080 --rotate normal --output DisplayPort-0 --mode 1920x1080 --rotate normal --left-of HDMI-A-0
+  echo "---" | tee -a /tmp/polybar.log
+  polybar top2 2>&1 | tee -a /tmp/polybar.log &
+  xrandr --output DisplayPort-0 --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --left-of DisplayPort-0
+fi
 disown
 
-bspc monitor -d 1 2 3 4 5 6
+bspc monitor HDMI-A-0 -s DisplayPort-0
+#bspc monitor DisplayPort-0 -d 1 2 3 4 5
+bspc monitor HDMI-A-0 -d 1 2 3 4 5
+bspc monitor DisplayPort-0 -d 6 7 8 9 0
 
 bspc config border_width 5
 bspc config window_gap 12
@@ -27,17 +38,19 @@ bspc config split_ratio 0.52
 bspc config borderless_monocle true
 bspc config gapless_monocle true
 
-# Hack for not focusing weird windows
+# Hack for not focusing weird windows (such as spotify)
 bspc config ignore_ewmh_focus true
 
+# bspc rule -a st-256color desktop='^1' follow=on focus=on
 bspc rule -a firefox-esr desktop='^2' follow=on focus=on
-bspc rule -a Spotify desktop='^4' state=floating follow=off focus=off
-bspc rule -a discord desktop='^5' follow=off focus=off
-bspc rule -a Emulator state=floating desktop='^4'
-
-# Float
-bspc rule -a qBittorrent state=floating
-bspc rule -a ghidra-Ghidra state=floating
-bspc rule -a Joplin state=floating
+#bspc rule -a Spotify desktop='^7' state=floating follow=off focus=off
+#bspc rule -a discord desktop='^7' state=floating follow=off focus=off
+bspc rule -a Spotify desktop='^7' follow=off focus=off
+bspc rule -a discord desktop='^7' follow=off focus=off
+bspc rule -a obsidian state=tiled
+bspc rule -a "Passwords - KeePassXC" state=floating
 bspc rule -a feh state=floating
-bspc rule -a Virt-manager state=floating
+
+bspc rule -a burp-StartBurp state=floating
+bspc rule -a qBittorrent state=floating
+bspc rule -a Emulator state=floating desktop='^4'

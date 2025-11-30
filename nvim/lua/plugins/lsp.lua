@@ -97,7 +97,7 @@ return {
         phpactor = {},
         lua_ls = {},
         marksman = {},
-        ltex = {},
+        -- ltex = {},
       }
 
       for server_name, _ in pairs(ensure_installed) do
