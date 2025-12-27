@@ -25,8 +25,11 @@ disown
 
 bspc monitor HDMI-A-0 -s DisplayPort-0
 #bspc monitor DisplayPort-0 -d 1 2 3 4 5
-bspc monitor HDMI-A-0 -d 1 2 3 4 5
-bspc monitor DisplayPort-0 -d 6 7 8 9 0
+bspc monitor HDMI-A-0 -d 1 2 3
+bspc monitor DisplayPort-0 -d 4 5 6
+
+# bspc config pointer_follows_focus true
+# bspc config focus_follows_pointer true
 
 bspc config border_width 5
 bspc config window_gap 12
@@ -42,15 +45,14 @@ bspc config gapless_monocle true
 bspc config ignore_ewmh_focus true
 
 # bspc rule -a st-256color desktop='^1' follow=on focus=on
-bspc rule -a firefox-esr desktop='^2' follow=on focus=on
-#bspc rule -a Spotify desktop='^7' state=floating follow=off focus=off
-#bspc rule -a discord desktop='^7' state=floating follow=off focus=off
-bspc rule -a Spotify desktop='^7' follow=off focus=off
-bspc rule -a discord desktop='^7' follow=off focus=off
-bspc rule -a obsidian state=tiled
+bspc rule -a Spotify desktop='^6' follow=off focus=off
+bspc rule -a discord desktop='^6' follow=off focus=ofF
+bspc rule -a firefox-esr desktop='^4' follow=on focus=on
+bspc rule -a obsidian desktop='^4' state=tiled
+bspc rule -a Virt-viewer desktop='^2' follow=on
+
 bspc rule -a "Passwords - KeePassXC" state=floating
 bspc rule -a feh state=floating
-
 bspc rule -a burp-StartBurp state=floating
 bspc rule -a qBittorrent state=floating
-bspc rule -a Emulator state=floating desktop='^4'
+bspc rule -a Emulator state=floating

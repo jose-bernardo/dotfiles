@@ -74,23 +74,15 @@ super + bracket{left,right}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-super + {grave,Tab}
+super + {Tab}
 	bspc {node,desktop} -f last
 
-# ????
-# focus the older or newer node in the focus history
-super + {o,i}
-	bspc wm -h off; \
-	bspc node {older,newer} -f; \
-	bspc wm -h on
-
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+super + {_,shift + }{1-3}
+	bspc {desktop -f,node -d} '^{1-3}'
 
-#
-# preselect
-#
+alt + {_,shift + }{1-3}
+	bspc {desktop -f,node -d} '^{4-6}'
 
 # preselect the direction
 super + ctrl + {h,j,k,l}
@@ -142,4 +134,4 @@ super + {Left,Down,Up,Right}
 # take screenshot
 super + shift + s
   sh ~/scripts/take_screenshot.sh
-  #flameshot gui -c -p ~/screenshots
+  flameshot gui -c -p ~/screenshots
