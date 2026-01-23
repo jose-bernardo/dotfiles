@@ -121,44 +121,25 @@ return {
         phpactor = {},
         lua_ls = {},
         marksman = {},
+        prettier = {},
         -- ltex = {},
       }
 
       for server_name, _ in pairs(ensure_installed) do
-        vim.lsp.config[server_name].setup({
+        vim.lsp.config[server_name] = {
           capabilities = capabilities,
           on_attach = on_attach,
           handlers = handlers,
-        })
+        }
       end
 
-      vim.lsp.config["lua_ls"].setup({
+      vim.lsp.config["lua_ls"] = {
         settings = {
           Lua = {
             diagnostics = { globals = { "vim" } },
           },
         },
-      })
-
-      -- require(mason-lspconfig").setup_handlers({
-      --   function(server)
-      --     require("lspconfig")[server].setup({
-      --       handler = handlers,
-      --       on_attach = on_attach,
-      --       capabilities = capabilities,
-      --     })
-      --   end,
-      --
-      --   ["lua_ls"] = function()
-      --     require("lspconfig")["lua_ls"].setup({
-      --       settings = {
-      --         Lua = {
-      --           diagnostics = { globals = { "vim" } },
-      --         },
-      --       },
-      --     })
-      --   end,
-      -- })
+      }
     end,
   },
   {
