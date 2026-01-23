@@ -65,16 +65,40 @@ return {
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declarations" })
         vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
         vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help" })
-        -- vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostics" })
+        vim.keymap.set("n", "<Leader>cd", vim.diagnostic.open_float, { desc = "Show Diagnostics" })
         vim.keymap.set("n", "<Leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
-        -- vim.keymap.set("n", "", vim.lsp.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-        -- vim.keymap.set("n", "", vim.lsp.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-        -- vim.keymap.set(
-        --   "n",
-        --   "<Leader>ca",
-        --   vim.lsp.buf.code_action,
-        --   { desc = "Code Action", noremap = true, silent = true }
-        -- )
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+        vim.keymap.set(
+          "n",
+          "<Leader>ca",
+          vim.lsp.buf.code_action,
+          { desc = "Code Action", noremap = true, silent = true }
+        )
+
+        if client.server_capabilities.documentHighlightProvider then
+          vim.api.nvim_set_hl(0, "LspReferenceRead", { bg = "#45475A" })
+          vim.api.nvim_set_hl(0, "LspReferenceText", { bg = "#45475A" })
+          vim.api.nvim_set_hl(0, "LspReferenceWrite", { bg = "#45475A" })
+
+          local augroup = vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
+
+          vim.api.nvim_create_autocmd("CursorHold", {
+            group = augroup,
+            buffer = buffer,
+            callback = function()
+              vim.lsp.buf.document_highlight()
+            end,
+          })
+
+          vim.api.nvim_create_autocmd("CursorMoved", {
+            group = augroup,
+            buffer = buffer,
+            callback = function()
+              vim.lsp.buf.clear_references()
+            end,
+          })
+        end
       end
 
       local handlers = {

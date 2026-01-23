@@ -79,10 +79,10 @@ super + {Tab}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-3}
-	bspc {desktop -f,node -d} '^{1-3}'
+	bspc {desktop -f,node -d} '{1-3}'
 
 alt + {_,shift + }{1-3}
-	bspc {desktop -f,node -d} '^{4-6}'
+	bspc {desktop -f,node -d} '{4-6}'
 
 # preselect the direction
 super + ctrl + {h,j,k,l}

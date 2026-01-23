@@ -1,10 +1,3 @@
--- system clipboard
--- map({ "n", "v" }, "<Leader>y", '"+y', {})
--- map({ "n" }, "<Leader>Y", '"+y$', {})
---
--- map({ "n", "v" }, "<Leader>p", '"+p', {})
--- map({ "n", "v" }, "<Leader>P", '"+P', {})
-
 local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end
@@ -18,6 +11,7 @@ vim.api.nvim_create_autocmd("CmdlineEnter", {
     end
   end,
 })
+
 vim.api.nvim_create_autocmd("CmdlineLeave", {
   callback = function()
     local cmd = vim.v.event.cmdtype
@@ -96,5 +90,26 @@ vim.api.nvim_create_autocmd("FileType", {
         desc = "Quit buffer",
       })
     end)
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("lsp_document_highlight"),
+  callback = function(event)
+    local bufnr = event.buf
+    vim.api.nvim_create_autocmd("CursorHold", {
+      group = augroup("lsp_document_highlight"),
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.document_highlight()
+      end,
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      group = augroup("lsp_document_highlight"),
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.buf.clear_references()
+      end,
+    })
   end,
 })

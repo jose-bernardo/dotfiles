@@ -1,0 +1,9 @@
+change saiw" to something simpler
+conform formatter should be automatic, it is working on save and only sometimes
+lspinfo no popup
+sometimes a line goes blank but it is there
+organize icons
+auto complete ltex from dictionary
+goto next and rpev diagnostic
+fzf show diagnostics
+clean tmux.conf
