@@ -134,4 +134,4 @@ super + {Left,Down,Up,Right}
 # take screenshot
 super + shift + s
   sh ~/scripts/take_screenshot.sh
-  flameshot gui -c -p ~/screenshots
+  # flameshot gui #-p ~/screenshots
