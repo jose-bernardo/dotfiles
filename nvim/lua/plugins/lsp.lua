@@ -125,14 +125,14 @@ return {
       }
 
       for server_name, _ in pairs(ensure_installed) do
-        require("lspconfig")[server_name].setup({
+        vim.lsp.config[server_name].setup({
           capabilities = capabilities,
           on_attach = on_attach,
           handlers = handlers,
         })
       end
 
-      require("lspconfig")["lua_ls"].setup({
+      vim.lsp.config["lua_ls"].setup({
         settings = {
           Lua = {
             diagnostics = { globals = { "vim" } },

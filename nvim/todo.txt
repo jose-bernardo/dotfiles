@@ -7,3 +7,5 @@ auto complete ltex from dictionary
 goto next and rpev diagnostic
 fzf show diagnostics
 clean tmux.conf
+bufferline setup
+mason check if problem solved
